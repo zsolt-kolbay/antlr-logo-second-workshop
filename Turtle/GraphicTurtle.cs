@@ -13,6 +13,10 @@ namespace Turtle.Main
         private readonly FrameworkElement _turtleShape;
         private readonly RotateTransform _turtleRotation;
 
+        private Brush _strokeBrush = Brushes.Black;
+
+        public bool IsPenDown { get; set; } = true;
+
         public GraphicTurtle(Canvas turtleCanvas, FrameworkElement turtleShape, RotateTransform turtleRotation)
         {
             if (turtleCanvas == null) throw new ArgumentNullException(nameof(turtleCanvas));
@@ -41,22 +45,37 @@ namespace Turtle.Main
             Canvas.SetLeft(_turtleShape, newLeft);
             Canvas.SetTop(_turtleShape, newTop);
 
-            // draw a line between the old and new position
-            var line = new Line
+            if (IsPenDown)
             {
-                X1 = left + width / 2,
-                Y1 = top + height / 2,
-                X2 = newLeft + width / 2,
-                Y2 = newTop + height / 2,
-                StrokeThickness = 2,
-                Stroke = Brushes.Black
-            };
-            _turtleCanvas.Children.Add(line);
+                // draw a line between the old and new position
+                var line = new Line
+                {
+                    X1 = left + width / 2,
+                    Y1 = top + height / 2,
+                    X2 = newLeft + width / 2,
+                    Y2 = newTop + height / 2,
+                    StrokeThickness = 2,
+                    Stroke = _strokeBrush
+                };
+                _turtleCanvas.Children.Add(line);
+            }
         }
 
         public void TurnByAngle(double angle)
         {
             _turtleRotation.Angle += angle;
+        }
+
+        public void SetStrokeColor(TurtleStrokeColor strokeColor)
+        {
+            _strokeBrush = strokeColor switch
+            {
+                TurtleStrokeColor.Black => Brushes.Black,
+                TurtleStrokeColor.Red => Brushes.Red,
+                TurtleStrokeColor.Green => Brushes.Green,
+                TurtleStrokeColor.Blue => Brushes.Blue,
+                _ => throw new ArgumentException($"Invalid color value: {strokeColor}")
+            };                
         }
     }
 }

@@ -8,9 +8,27 @@ namespace Turtle
     public partial class MainWindow
     {
         private const string InitialCode =
-@"repeat 8 {
-  forward 150
-  turn 144
+@"pen up
+turn 180
+forward 100
+pen down
+
+repeat 5 {
+ color green
+ repeat 8 {
+   forward 150
+   turn 144
+ }
+
+ pen up
+ forward 350
+ pen down
+
+ color red
+ repeat 120 {
+   forward 10
+   turn 3
+ }
 }";
 
         public MainWindow()
