@@ -29,7 +29,9 @@ repeat 5 {
    forward 10
    turn 3
  }
-}";
+}
+
+save ""C:\LOGO\Images\sample.png""";
 
         public MainWindow()
         {

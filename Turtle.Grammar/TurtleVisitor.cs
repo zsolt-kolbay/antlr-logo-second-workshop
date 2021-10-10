@@ -3,7 +3,7 @@ using System;
 
 namespace Turtle.Grammar
 {
-    public class TurtleVisitor : LogoBaseVisitor<object>
+    public class TurtleVisitor : LogoParserBaseVisitor<object>
     {
         private readonly ITurtle _turtle;
 
@@ -69,6 +69,15 @@ namespace Turtle.Grammar
         public override object VisitPenUpOrDown([NotNull] LogoParser.PenUpOrDownContext context)
         {
             _turtle.IsPenDown = context.DOWN() is not null;
+
+            return null;
+        }
+
+        public override object VisitSaveImage([NotNull] LogoParser.SaveImageContext context)
+        {
+            string stringLiteral = context.STRING_LITERAL().GetText();
+            string filePath = stringLiteral.Trim('"');
+            _turtle.SaveDrawnImageToFile(filePath);
 
             return null;
         }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Turtle.Grammar;
 
@@ -75,7 +77,27 @@ namespace Turtle.Main
                 TurtleStrokeColor.Green => Brushes.Green,
                 TurtleStrokeColor.Blue => Brushes.Blue,
                 _ => throw new ArgumentException($"Invalid color value: {strokeColor}")
-            };                
+            };
+        }
+
+        public void SaveDrawnImageToFile(string filePath)
+        {
+            _turtleCanvas.Dispatcher.Invoke(() => 
+            {
+                var renderBitmap = new RenderTargetBitmap((int)_turtleCanvas.RenderSize.Width, (int)_turtleCanvas.RenderSize.Height, 96d, 96d, PixelFormats.Default);
+                renderBitmap.Render(_turtleCanvas);
+
+                var pngEncoder = new PngBitmapEncoder();
+                pngEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+
+                var fileInfo = new FileInfo(filePath);
+                fileInfo.Directory?.Create();
+
+                using (var fileStream = File.OpenWrite(filePath))
+                {
+                    pngEncoder.Save(fileStream);
+                }
+            }, System.Windows.Threading.DispatcherPriority.Background);
         }
     }
 }

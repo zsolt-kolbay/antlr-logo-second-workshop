@@ -7,5 +7,6 @@
         void MoveForward(double distance);
         void TurnByAngle(double angle);
         void SetStrokeColor(TurtleStrokeColor strokeColor);
+        void SaveDrawnImageToFile(string filePath);
     }
 }

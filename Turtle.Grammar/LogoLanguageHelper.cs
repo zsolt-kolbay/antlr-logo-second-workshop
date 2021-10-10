@@ -6,9 +6,10 @@ namespace Turtle.Grammar
     {
         public static void ParseAndExecuteLogoScript(string sourceCode, ITurtle turtle)
         {
-            // create a stream from the source code
+            // create a case insensitive stream from the source code
             // pass that stream to the Lexer
-            var lexer = new LogoLexer(new AntlrInputStream(sourceCode));
+            var caseInsensitiveStream = new CaseChangingCharStream(new AntlrInputStream(sourceCode), upper: false);
+            var lexer = new LogoLexer(caseInsensitiveStream);
 
             // create a stream of tokens from the Lexer
             var tokenStream = new CommonTokenStream(lexer);

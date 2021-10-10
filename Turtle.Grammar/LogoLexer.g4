@@ -1,19 +1,4 @@
-﻿grammar Logo;
-
-// Parser rules
-// Every identifier must start with a small letter.
-// Recursive rules are allowed.
-program: commandList;
-commandList: command*;
-command: forward | turn | repeat | setColor | penUpOrDown;
-
-// The actual LOGO commands.
-forward: FORWARD NUMBER;
-turn: TURN NUMBER;
-repeat: REPEAT NUMBER BLOCKSTART commandList BLOCKEND;
-strokeColor: COLOR_BLACK | COLOR_RED | COLOR_GREEN | COLOR_BLUE;
-setColor: COLOR strokeColor;
-penUpOrDown: PEN (UP | DOWN);
+﻿lexer grammar LogoLexer;
 
 // Lexer rules
 // Every identifier must start with a capital letter.
@@ -25,6 +10,7 @@ FORWARD: 'forward';
 TURN: 'turn';
 REPEAT: 'repeat';
 COLOR: 'color';
+SAVE: 'save';
 
 // colors
 COLOR_BLACK: 'black';
@@ -36,6 +22,9 @@ COLOR_BLUE: 'blue';
 PEN: 'pen';
 UP: 'up';
 DOWN: 'down';
+
+STRING_LITERAL: '"' .*? '"';
+COMMENT: '//' ~[\r\n]* -> channel(2);
 
 // filler characters
 WS: [ \t] -> skip; // we're skipping whitespace characters, they will not be part of our syntax tree
