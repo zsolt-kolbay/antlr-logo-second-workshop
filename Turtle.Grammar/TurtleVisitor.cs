@@ -3,7 +3,7 @@ using System;
 
 namespace Turtle.Grammar
 {
-    public class TurtleVisitor : LogoParserBaseVisitor<object>
+    public class TurtleVisitor : LogoBaseVisitor<object>
     {
         private readonly ITurtle _turtle;
 

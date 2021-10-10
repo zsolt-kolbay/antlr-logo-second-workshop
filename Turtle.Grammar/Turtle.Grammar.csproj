@@ -9,15 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="LogoLexer.g4" />
-    <None Remove="LogoParser.g4" />
+    <None Remove="Logo.g4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Antlr4 Include="LogoLexer.g4">
-      <SubType>Component</SubType>
-    </Antlr4>
-    <Antlr4 Include="LogoParser.g4" />
+    <Antlr4 Include="Logo.g4" />
   </ItemGroup>
 
   <ItemGroup>
