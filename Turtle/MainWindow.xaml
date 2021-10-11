@@ -10,6 +10,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="200" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" BorderBrush="Black" BorderThickness="2">
@@ -25,5 +26,6 @@
 
         <TextBox Grid.Row="1"  x:Name="CodeTextBox" AcceptsReturn="True" FontSize="26" FontFamily="Courier New" FontWeight="Bold" VerticalScrollBarVisibility="Auto" />
         <Button Grid.Row="2" Grid.Column="0" Content="Run" Click="RunButtonClicked" MinHeight="80" FontSize="24" FontWeight="Bold"/>
+        <ListView Grid.Row="3" x:Name="ParserMessageList" Background="LightGray" SelectionChanged="ParserMessageList_OnSelectionChanged" DisplayMemberPath="Message" />
     </Grid>
 </Window>

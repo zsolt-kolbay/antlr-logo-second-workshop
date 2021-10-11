@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Turtle.Grammar;
 using Turtle.Main;
@@ -33,6 +35,8 @@ repeat 5 {
 
 save ""C:\LOGO\Images\sample.png""";
 
+        public LogoErrorMessage[] ParserErrors = Array.Empty<LogoErrorMessage>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -44,7 +48,13 @@ save ""C:\LOGO\Images\sample.png""";
             ResetCanvas();
 
             var turtle = new GraphicTurtle(DrawingCanvas, TurtleShape, TurtleRotatation);
-            LogoLanguageHelper.ParseAndExecuteLogoScript(CodeTextBox.Text, turtle);
+            ParserErrors = LogoLanguageHelper.ParseAndExecuteLogoScript(CodeTextBox.Text, turtle);
+
+            ParserMessageList.Items.Clear();
+            foreach (var error in ParserErrors)
+            {
+                ParserMessageList.Items.Add(error);
+            }
         }
 
         private void ResetCanvas()
@@ -59,6 +69,17 @@ save ""C:\LOGO\Images\sample.png""";
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ResetCanvas();
+        }
+
+        private async void ParserMessageList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ParserMessageList.SelectedItem is LogoErrorMessage logoError)
+            {
+                ParserMessageList.SelectedItem = null;
+                await Task.Delay(50); // yeah, WPF sure has some strange behaviors
+                CodeTextBox.Focus();
+                CodeTextBox.CaretIndex = CodeTextBox.GetCharacterIndexFromLineIndex(logoError.Line - 1) + logoError.Column;
+            }
         }
     }
 }
